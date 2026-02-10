@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tmux マスターガイド - アニメーションで学ぶ</title>
+    <title>tmux 入門ガイド - ゼロから始めるターミナルマルチプレクサ</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -56,11 +56,11 @@
         </div>
         <div class="hero-content">
             <h1 class="hero-title">
-                <span class="highlight">tmux</span> マスターガイド
+                <span class="highlight">tmux</span> 入門ガイド
             </h1>
             <p class="hero-subtitle">
-                アニメーションとインタラクティブなチートシートで<br>
-                <strong>サクッとtmuxをマスター</strong>
+                ターミナルを自由自在に操る -<br>
+                <strong>ゼロからtmuxを学ぶ</strong>
             </p>
             <div class="hero-buttons">
                 <a href="#concepts" class="btn-primary">
@@ -74,14 +74,64 @@
         </div>
     </section>
 
+    <!-- インストール -->
+    <section class="install-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">Installation</span>
+                <h2>インストール</h2>
+                <p>お使いのOSに合わせてtmuxをインストールしてください</p>
+            </div>
+            <div class="install-grid">
+                <div class="install-card">
+                    <div class="install-icon">🍎</div>
+                    <h3>macOS</h3>
+                    <code>brew install tmux</code>
+                    <p>Homebrewが必要です</p>
+                </div>
+                <div class="install-card">
+                    <div class="install-icon">🐧</div>
+                    <h3>Ubuntu/Debian</h3>
+                    <code>sudo apt install tmux</code>
+                    <p>パッケージマネージャーでインストール</p>
+                </div>
+                <div class="install-card">
+                    <div class="install-icon">🐧</div>
+                    <h3>CentOS/RHEL</h3>
+                    <code>sudo yum install tmux</code>
+                    <p>または dnf install tmux</p>
+                </div>
+            </div>
+            <div class="install-verify">
+                <p>インストール確認: <code>tmux -V</code> （バージョンが表示されます）</p>
+            </div>
+        </div>
+    </section>
+
     <!-- tmuxとは？ -->
     <section class="what-is-tmux">
         <div class="container">
             <div class="section-header">
                 <span class="badge">Introduction</span>
                 <h2>tmux とは？</h2>
-                <p>ターミナルマルチプレクサ - 作業効率を劇的に向上させるツール</p>
+                <p>1つのターミナル画面の中で複数の作業環境を管理するツール</p>
             </div>
+            
+            <div class="tmux-explanation">
+                <h3>🤔 「ターミナルマルチプレクサ」って何？</h3>
+                <p><strong>「複数のものを1つにまとめる」</strong>という意味です。tmuxを使うと、1つのターミナルウィンドウの中に複数の仮想端末を作れます。</p>
+                
+                <div class="analogy-box">
+                    <h4>💡 分かりやすい例え</h4>
+                    <p>tmuxは<strong>「デスクの上の複数のモニター」</strong>のようなものです：</p>
+                    <ul>
+                        <li><strong>普通のターミナル</strong> = 1台のモニターだけ。1つのアプリしか見えない</li>
+                        <li><strong>tmux</strong> = 1台のモニター（ターミナル）の中に複数の画面を切り替えながら使える</li>
+                        <li>しかも離席しても（SSH切断しても）作業状態が保存される</li>
+                    </ul>
+                </div>
+            </div>
+            
             <div class="features-grid">
                 <div class="feature-card" data-aos="fade-up">
                     <div class="feature-icon">
@@ -92,7 +142,7 @@
                         </svg>
                     </div>
                     <h3>画面分割</h3>
-                    <p>1つのターミナルを複数のペインに分割。複数の作業を同時に進められます。</p>
+                    <p>1つのターミナルを複数のペインに分割。エディタとサーバーのログを同時に見られます。</p>
                 </div>
                 <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
                     <div class="feature-icon">
@@ -229,7 +279,62 @@
 
                 </div>
 
-                <!-- まとめ -->
+                <!-- 使い方の例 -->
+                <div class="usecase-section">
+                    <h3 class="usecase-title">🎯 実際の使い方の例</h3>
+                    
+                    <div class="usecase-grid">
+                        <div class="usecase-card">
+                            <h4>プロジェクト管理</h4>
+                            <div class="usecase-visual">
+                                <div class="usecase-session">
+                                    <span class="session-label">project-a</span>
+                                    <div class="usecase-windows">
+                                        <span class="window-tag">vim</span>
+                                        <span class="window-tag">server</span>
+                                        <span class="window-tag">git</span>
+                                    </div>
+                                </div>
+                                <div class="usecase-session">
+                                    <span class="session-label">project-b</span>
+                                    <div class="usecase-windows">
+                                        <span class="window-tag">editor</span>
+                                        <span class="window-tag">docker</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>異なるプロジェクトはセッションで分離。切り替えは簡単</p>
+                        </div>
+                        
+                        <div class="usecase-card highlight">
+                            <h4>SSH接続の永続化</h4>
+                            <div class="usecase-flow">
+                                <div class="flow-step">
+                                    <span class="step-num">1</span>
+                                    <span>SSHで接続</span>
+                                </div>
+                                <div class="flow-step">
+                                    <span class="step-num">2</span>
+                                    <span>tmux起動・作業</span>
+                                </div>
+                                <div class="flow-step">
+                                    <span class="step-num">3</span>
+                                    <span>SSH切断</span>
+                                </div>
+                                <div class="flow-step">
+                                    <span class="step-num">4</span>
+                                    <span>再接続</span>
+                                </div>
+                                <div class="flow-step result">
+                                    <span>作業が完全に復元！</span>
+                                </div>
+                            </div>
+                            <p>作業状態がサーバーに保存される。最も重要な機能の一つ</p>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- まとめ -->
                 <div class="hierarchy-summary">
                     <div class="summary-box">
                         <h4>💡 まとめ</h4>
@@ -238,13 +343,151 @@
                 </div>
             </div>
 
+            <!-- プレフィックスキーの説明 -->
+                <div class="prefix-key-section"
+                >
+                    <h3 class="prefix-title"
+                    >⌨️ プレフィックスキーとは？
+                    </h3>
+                    
+                    <div class="prefix-explanation"
+                    >
+                        <p
+                        >tmuxの操作は<strong
+                            >「プレフィックスキー（デフォルトは Ctrl+b）を押してから、次のキーを押す」</strong
+                            >という2段階操作です。
+                        </p>
+                        
+                        <div class="prefix-demo"
+                        >
+                            <div class="demo-step"
+                            >
+                                <span class="step-num"
+                                >1
+                                </span>
+                                <span class="step-action"
+                                >
+                                    <kbd
+                                    >Ctrl+b
+                                    </kbd
+                                    > を押す（指を離す）
+                                </span>
+                            </div>
+                            <div class="demo-step"
+                            >
+                                <span class="step-num"
+                                >2
+                                </span>
+                                <span class="step-action"
+                                >
+                                    <kbd
+                                    >d
+                                    </kbd
+                                    > を押す（セッションから離脱）
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="prefix-note"
+                        >
+                            <strong
+                            >💡 重要:
+                            </strong
+                            >
+                            <kbd
+                            >Ctrl+b
+                            </kbd
+                            > は押して<strong
+                            >離してから</strong
+                            >、次のキーを押します。同時押しではありません！
+                        </div
+                        >
+                    </div>
+                </div>
+
             <!-- 各概念の詳細 -->
-            <div class="concepts-detail">
-                <div class="concept-card" data-concept="session">
-                    <div class="concept-icon">1</div>
-                    <div class="concept-content">
-                        <h3>セッション Session</h3>
-                        <p class="concept-desc">tmuxの最上位の作業単位。1つのセッションに複数のウィンドウを持てます。</p>
+            <div class="concepts-detail"
+            >
+                <div class="concept-card" data-concept="session"
+                >
+                    <div class="concept-icon"
+                    >1
+                    </div>
+                    <div class="concept-content"
+                    >
+                        <h3
+                        >セッション Session
+                        </h3>
+                        <p class="concept-desc"
+                        >tmuxの最上位の作業単位。1つのセッションに複数のウィンドウを持てます。
+                        </p>
+                        <div class="concept-detail"
+                        >
+                            <h4
+                            >🔄 セッションの永続化（最大の特徴）
+                            </h4>
+                            <p
+                            >セッションを離脱（detach）しても、サーバー上でプロセスは動き続けます。SSH切断後も作業状態が完全に保存され、後から再接続できます。
+                            </p>
+                            
+                            <div class="session-flow"
+                            >
+                                <div class="flow-item"
+                                >
+                                    <code
+                                    >tmux new -s work
+                                    </code
+                                    >
+                                    <span
+                                    >セッション作成（-s はセッション名指定）
+                                    </span>
+                                </div>
+                                <div class="flow-arrow"
+                                >↓
+                                </div>
+                                <div class="flow-item"
+                                >
+                                    <kbd
+                                    >Ctrl+b
+                                    </kbd
+                                    >
+                                    <kbd
+                                    >d
+                                    </kbd
+                                    >
+                                    <span
+                                    >離脱（detach）
+                                    </span>
+                                </div>
+                                <div class="flow-arrow"
+                                >↓
+                                </div>
+                                <div class="flow-item"
+                                >
+                                    SSH切断しても...
+                                </div>
+                                <div class="flow-arrow"
+                                >↓
+                                </div>
+                                <div class="flow-item"
+                                >
+                                    <code
+                                    >tmux attach -t work
+                                    </code
+                                    >
+                                    <span
+                                    >再接続（-t はターゲット指定）
+                                    </span>
+                                </div>
+                                <div class="flow-arrow"
+                                >↓
+                                </div>
+                                <div class="flow-item highlight"
+                                >
+                                    作業状態が完全に復元！
+                                </div>
+                            </div>
+                        </div>
                         <div class="concept-demo">
                             <div class="demo-code">
                                 <div class="demo-line">
@@ -316,13 +559,13 @@
                         <div class="concept-demo">
                             <div class="demo-code">
                                 <div class="demo-line">
-                                    <span class="comment"># 縦分割（左右）</span>
+                                    <span class="comment"># 左右に分割</span>
                                 </div>
                                 <div class="demo-line">
                                     <span class="cmd">Ctrl+b</span> <span class="arg">%</span>
                                 </div>
                                 <div class="demo-line">
-                                    <span class="comment"># 横分割（上下）</span>
+                                    <span class="comment"># 上下に分割</span>
                                 </div>
                                 <div class="demo-line">
                                     <span class="cmd">Ctrl+b</span> <span class="arg">"</span>
@@ -561,13 +804,13 @@
                             <div class="command-keys">
                                 <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>%</kbd>
                             </div>
-                            <div class="command-desc">縦分割（左右に分割）</div>
+                            <div class="command-desc">左右に分割</div>
                         </div>
                         <div class="command-item highlight" data-keys="prefix quote">
                             <div class="command-keys">
                                 <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>"</kbd>
                             </div>
-                            <div class="command-desc">横分割（上下に分割）</div>
+                            <div class="command-desc">上下に分割</div>
                         </div>
                         <div class="command-item" data-keys="prefix arrows">
                             <div class="command-keys">
@@ -742,10 +985,10 @@
                             <code>tmux new -s webapp</code>
                             <span>セッション作成</span>
                         </div>
-                        <div class="step">
-                            <kbd>Ctrl+b</kbd> <kbd>%</kbd>
-                            <span>左右に分割</span>
-                        </div>
+                            <div class="step">
+                                <kbd>Ctrl+b</kbd> <kbd>%</kbd>
+                                <span>ペインを左右に分割</span>
+                            </div>
                         <div class="step">
                             <kbd>Ctrl+b</kbd> <kbd>↓</kbd> → <kbd>"</kbd>
                             <span>下をさらに分割</span>
@@ -799,32 +1042,39 @@
                 <div class="scenario-card">
                     <div class="scenario-header">
                         <span class="scenario-number">03</span>
-                        <h3>ペアプログラミング</h3>
+                        <h3>セッション管理の基本</h3>
                     </div>
                     <div class="scenario-visual">
                         <div class="mini-terminal">
                             <div class="mini-pane" style="grid-column: 1; grid-row: 1;">
-                                <span class="mini-label">User A</span>
+                                <span class="mini-label">work</span>
                             </div>
                             <div class="mini-pane" style="grid-column: 2; grid-row: 1;">
-                                <span class="mini-label">User B</span>
+                                <span class="mini-label">study</span>
+                            </div>
+                            <div class="mini-pane" style="grid-column: 1; grid-row: 2;">
+                                <span class="mini-label">server</span>
+                            </div>
+                            <div class="mini-pane" style="grid-column: 2; grid-row: 2;">
+                                <span class="mini-label">-</span>
                             </div>
                         </div>
                     </div>
                     <div class="scenario-steps">
                         <div class="step">
-                            <code>tmux -S /tmp/pair new -s pair</code>
-                            <span>共有セッション作成</span>
+                            <code>tmux ls</code>
+                            <span>セッション一覧確認</span>
                         </div>
                         <div class="step">
-                            <code>chmod 777 /tmp/pair</code>
-                            <span>ソケットの権限変更</span>
+                            <code>tmux kill-session -t old_session</code>
+                            <span>不要なセッションを終了</span>
                         </div>
                         <div class="step">
-                            他のユーザーが同じセッションにattach
+                            <code>tmux kill-server</code>
+                            <span>全セッションを終了（注意！）</span>
                         </div>
                         <div class="step">
-                            同じ画面をリアルタイムで共有
+                            <span>名前を付けて管理すると便利</span>
                         </div>
                     </div>
                 </div>
@@ -856,6 +1106,11 @@
 set -g prefix C-a
 unbind C-b
 bind C-a send-prefix</code></pre>
+                        <div class="config-explanation">
+                            <p><strong>-g</strong> = global（グローバル設定）<br>
+                            <strong>send-prefix</strong> = tmux内のtmux（ネスト）にプレフィックスを送るための設定<br>
+                            ネストを使わない場合は3行目は不要ですが、念のため残しておくと安全です。</p>
+                        </div>
                         <button class="copy-config-btn">コピー</button>
                     </div>
                     <div class="config-block">
@@ -866,11 +1121,14 @@ bind r source-file ~/.tmux.conf \; display "Config reloaded!"</code></pre>
                     </div>
                     <div class="config-block">
                         <h4>ペイン分割のキーを変更</h4>
-                        <pre><code class="language-bash"># | で縦分割、- で横分割
+                        <pre><code class="language-bash"># | で左右分割、- で上下分割
 bind | split-window -h
 bind - split-window -v
 unbind '"'
 unbind %</code></pre>
+                        <div class="config-explanation">
+                            <p><strong>覚え方:</strong> |（パイプ）は縦棒だから左右に分割、-（ハイフン）は横棒だから上下に分割</p>
+                        </div>
                         <button class="copy-config-btn">コピー</button>
                     </div>
                 </div>
@@ -883,6 +1141,10 @@ set -g mouse on
 
 # マウスドラッグでコピーモードを終了しない
 unbind -T copy-mode-vi MouseDragEnd1Pane</code></pre>
+                        <div class="config-explanation">
+                            <p><strong>MouseDragEnd1Pane:</strong> デフォルトではマウスドラッグ終了時にコピーモードが終了してしまい、選択範囲が消えます。この設定で選択を保持できます。<br>
+                            <strong>注意:</strong> copy-mode-vi はviモード設定時のみ有効です。</p>
+                        </div>
                         <button class="copy-config-btn">コピー</button>
                     </div>
                 </div>
@@ -934,6 +1196,9 @@ setw -g pane-base-index 1
 
 # ウィンドウを閉じた時に番号を詰める
 set -g renumber-windows on</code></pre>
+                        <div class="config-explanation">
+                            <p><strong>理由:</strong> キーボードの配列上、0は1より遠い位置にあるため、1から始めた方が押しやすいです。</p>
+                        </div>
                         <button class="copy-config-btn">コピー</button>
                     </div>
                 </div>
@@ -976,7 +1241,7 @@ set -g renumber-windows on</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>Made for tmux learners</p>
+                <p>tmux Introduction Guide</p>
             </div>
         </div>
     </footer>
