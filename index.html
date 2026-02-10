@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tmux マスターガイド - アニメーションで学ぶ</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ナビゲーション -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">tmux</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#intro" class="nav-link">はじめに</a></li>
+                <li><a href="#concepts" class="nav-link">基本概念</a></li>
+                <li><a href="#cheatsheet" class="nav-link">チートシート</a></li>
+                <li><a href="#practice" class="nav-link">実践</a></li>
+                <li><a href="#config" class="nav-link">設定</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ヒーローセクション -->
+    <section id="intro" class="hero">
+        <div class="hero-background">
+            <div class="terminal-animation">
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="terminal-buttons">
+                            <span class="btn close"></span>
+                            <span class="btn minimize"></span>
+                            <span class="btn maximize"></span>
+                        </div>
+                        <div class="terminal-title">tmux</div>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="terminal-line">
+                            <span class="prompt">$</span>
+                            <span class="command typing" data-text="tmux new -s mysession"></span>
+                        </div>
+                        <div class="terminal-line hidden">
+                            <span class="output">[new session started]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="highlight">tmux</span> マスターガイド
+            </h1>
+            <p class="hero-subtitle">
+                アニメーションとインタラクティブなチートシートで<br>
+                <strong>サクッとtmuxをマスター</strong>
+            </p>
+            <div class="hero-buttons">
+                <a href="#concepts" class="btn-primary">
+                    <span>基本概念を学ぶ</span>
+                    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="#cheatsheet" class="btn-secondary">チートシートへ</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- tmuxとは？ -->
+    <section class="what-is-tmux">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">Introduction</span>
+                <h2>tmux とは？</h2>
+                <p>ターミナルマルチプレクサ - 作業効率を劇的に向上させるツール</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                            <line x1="8" y1="21" x2="16" y2="21"/>
+                            <line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
+                    </div>
+                    <h3>画面分割</h3>
+                    <p>1つのターミナルを複数のペインに分割。複数の作業を同時に進められます。</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                    </div>
+                    <h3>セッション維持</h3>
+                    <p>SSH切断しても作業が続く。いつでも作業を再開できます。</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                            <polyline points="2 17 12 22 22 17"/>
+                            <polyline points="2 12 12 17 22 12"/>
+                        </svg>
+                    </div>
+                    <h3>ウィンドウ管理</h3>
+                    <p>ブラウザのタブのように、複数の作業環境を切り替え。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 基本概念 -->
+    <section id="concepts" class="concepts-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">Core Concepts</span>
+                <h2>3つの基本概念</h2>
+                <p>tmuxを理解する上で欠かせない3つの階層構造</p>
+            </div>
+            
+            <!-- 階層構造の可視化 -->
+            <div class="hierarchy-visualization">
+                <div class="hierarchy-flow">
+                    
+                    <!-- Level 1: Session -->
+                    <div class="hierarchy-card session-card" data-level="session">
+                        <div class="card-header">
+                            <span class="level-badge">1</span>
+                            <h3>セッション (Session)</h3>
+                            <span class="level-desc">作業単位</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="session-example">
+                                <span class="session-name">work-session</span>
+                                <span class="session-icon">📁</span>
+                            </div>
+                            <div class="session-info">
+                                <p>複数のウィンドウを含む大きな箱</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Arrow -->
+                    <div class="hierarchy-arrow">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                        <span class="arrow-label">含む</span>
+                    </div>
+
+                    <!-- Level 2: Window -->
+                    <div class="hierarchy-card window-card" data-level="window">
+                        <div class="card-header">
+                            <span class="level-badge">2</span>
+                            <h3>ウィンドウ (Window)</h3>
+                            <span class="level-desc">タブのようなもの</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="window-tabs-preview">
+                                <div class="tab-item active">
+                                    <span class="tab-icon">📝</span>
+                                    <span class="tab-name">editor</span>
+                                </div>
+                                <div class="tab-item">
+                                    <span class="tab-icon">⚙️</span>
+                                    <span class="tab-name">server</span>
+                                </div>
+                                <div class="tab-item">
+                                    <span class="tab-icon">📋</span>
+                                    <span class="tab-name">logs</span>
+                                </div>
+                            </div>
+                            <div class="window-info">
+                                <p>ブラウザのタブのように切り替え可能</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Arrow -->
+                    <div class="hierarchy-arrow">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                        <span class="arrow-label">分割</span>
+                    </div>
+
+                    <!-- Level 3: Pane -->
+                    <div class="hierarchy-card pane-card" data-level="pane">
+                        <div class="card-header">
+                            <span class="level-badge">3</span>
+                            <h3>ペイン (Pane)</h3>
+                            <span class="level-desc">分割領域</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="pane-preview">
+                                <div class="mini-pane-left">
+                                    <div class="mini-pane-header">vim</div>
+                                    <div class="mini-pane-content">
+                                        <code>const hello = () => {</code>
+                                        <code>  console.log('tmux');</code>
+                                        <code>};</code>
+                                    </div>
+                                </div>
+                                <div class="mini-pane-divider"></div>
+                                <div class="mini-pane-right">
+                                    <div class="mini-pane-header">terminal</div>
+                                    <div class="mini-pane-content">
+                                        <span>$ npm start</span>
+                                        <span class="success-text">> server running</span>
+                                        <span class="cursor-blink">_</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pane-info">
+                                <p>ウィンドウ内を複数に分割</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- まとめ -->
+                <div class="hierarchy-summary">
+                    <div class="summary-box">
+                        <h4>💡 まとめ</h4>
+                        <p><strong>セッション</strong>が複数の<strong>ウィンドウ</strong>を持ち、<br>各<strong>ウィンドウ</strong>は複数の<strong>ペイン</strong>に分割できる</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 各概念の詳細 -->
+            <div class="concepts-detail">
+                <div class="concept-card" data-concept="session">
+                    <div class="concept-icon">1</div>
+                    <div class="concept-content">
+                        <h3>セッション Session</h3>
+                        <p class="concept-desc">tmuxの最上位の作業単位。1つのセッションに複数のウィンドウを持てます。</p>
+                        <div class="concept-demo">
+                            <div class="demo-code">
+                                <div class="demo-line">
+                                    <span class="comment"># セッション作成</span>
+                                </div>
+                                <div class="demo-line">
+                                    <span class="cmd">tmux new -s</span> <span class="arg">work</span>
+                                </div>
+                                <div class="demo-line">
+                                    <span class="comment"># セッション一覧</span>
+                                </div>
+                                <div class="demo-line">
+                                    <span class="cmd">tmux ls</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="key-points">
+                            <div class="key-point">
+                                <span class="key">Ctrl+b</span> + <span class="key">d</span>
+                                <span class="desc">セッションから離脱（detach）</span>
+                            </div>
+                            <div class="key-point">
+                                <span class="key">tmux attach</span>
+                                <span class="desc">セッションに再接続</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card" data-concept="window">
+                    <div class="concept-icon">2</div>
+                    <div class="concept-content">
+                        <h3>ウィンドウ Window</h3>
+                        <p class="concept-desc">セッション内のタブのようなもの。ブラウザのタブと同じ感覚で使えます。</p>
+                        <div class="concept-demo">
+                            <div class="demo-code">
+                                <div class="demo-line">
+                                    <span class="comment"># ウィンドウ作成</span>
+                                </div>
+                                <div class="demo-line">
+                                    <span class="cmd">Ctrl+b</span> <span class="arg">c</span>
+                                </div>
+                                <div class="demo-line">
+                                    <span class="comment"># ウィンドウ切り替え</span>
+                                </div>
+                                <div class="demo-line">
+                                    <span class="cmd">Ctrl+b</span> <span class="arg">n</span> <span class="comment">/ p</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="key-points">
+                            <div class="key-point">
+                                <span class="key">Ctrl+b</span> + <span class="key">0-9</span>
+                                <span class="desc">番号でウィンドウ移動</span>
+                            </div>
+                            <div class="key-point">
+                                <span class="key">Ctrl+b</span> + <span class="key">w</span>
+                                <span class="desc">ウィンドウ一覧表示</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card" data-concept="pane">
+                    <div class="concept-icon">3</div>
+                    <div class="concept-content">
+                        <h3>ペイン Pane</h3>
+                        <p class="concept-desc">ウィンドウ内の分割領域。これがtmuxの最大の魅力です。</p>
+                        <div class="concept-demo">
+                            <div class="demo-code">
+                                <div class="demo-line">
+                                    <span class="comment"># 縦分割（左右）</span>
+                                </div>
+                                <div class="demo-line">
+                                    <span class="cmd">Ctrl+b</span> <span class="arg">%</span>
+                                </div>
+                                <div class="demo-line">
+                                    <span class="comment"># 横分割（上下）</span>
+                                </div>
+                                <div class="demo-line">
+                                    <span class="cmd">Ctrl+b</span> <span class="arg">"</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="key-points">
+                            <div class="key-point">
+                                <span class="key">Ctrl+b</span> + <span class="key">←→↑↓</span>
+                                <span class="desc">ペイン間移動</span>
+                            </div>
+                            <div class="key-point">
+                                <span class="key">Ctrl+b</span> + <span class="key">z</span>
+                                <span class="desc">ペインを全画面表示/元に戻す</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ペイン分割デモ -->
+    <section class="pane-demo-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">Interactive Demo</span>
+                <h2>ペイン分割を体験</h2>
+                <p>実際のキーボード操作を可視化して確認</p>
+            </div>
+            
+            <div class="demo-container">
+                <div class="keyboard-section">
+                    <div class="instruction">
+                        <p>下のキーボードで <kbd>Ctrl+b</kbd> を押してから、各キーを押してみてください</p>
+                    </div>
+                    <div class="keyboard-visual">
+                        <div class="key-row">
+                            <div class="key modifier" data-key="ctrl">Ctrl</div>
+                            <div class="key modifier" data-key="prefix">+ b</div>
+                            <div class="key" data-key="percent">%</div>
+                            <div class="key" data-key="quote">"</div>
+                            <div class="key arrow" data-key="left">←</div>
+                            <div class="key arrow" data-key="down">↓</div>
+                            <div class="key arrow" data-key="up">↑</div>
+                            <div class="key arrow" data-key="right">→</div>
+                            <div class="key" data-key="z">z</div>
+                            <div class="key" data-key="x">x</div>
+                        </div>
+                        <div class="key-preview">
+                            <span class="pressed-keys"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="terminal-preview">
+                    <div class="terminal-window demo-terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-buttons">
+                                <span class="btn close"></span>
+                                <span class="btn minimize"></span>
+                                <span class="btn maximize"></span>
+                            </div>
+                            <div class="terminal-title">demo</div>
+                        </div>
+                        <div class="terminal-body" id="demo-panes">
+                            <div class="pane-single active">
+                                <div class="pane-label">0:bash*</div>
+                                <div class="pane-content-area">
+                                    <span class="prompt">$</span> <span class="cursor">_</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="status-bar">
+                            <span class="session-name">[demo]</span>
+                            <span class="window-list">0:bash*</span>
+                            <span class="info">"user@host" 12:00 10-Feb-26</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- チートシート -->
+    <section id="cheatsheet" class="cheatsheet-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">Cheat Sheet</span>
+                <h2>インタラクティブ チートシート</h2>
+                <p>よく使うコマンドをカテゴリ別に表示。コピーしてすぐ使えます。</p>
+            </div>
+
+            <!-- フィルター -->
+            <div class="cheatsheet-filters">
+                <button class="filter-btn active" data-filter="all">すべて</button>
+                <button class="filter-btn" data-filter="session">セッション</button>
+                <button class="filter-btn" data-filter="window">ウィンドウ</button>
+                <button class="filter-btn" data-filter="pane">ペイン</button>
+                <button class="filter-btn" data-filter="copy">コピー/スクロール</button>
+                <button class="filter-btn" data-filter="other">その他</button>
+            </div>
+
+            <!-- チートシートグリッド -->
+            <div class="cheatsheet-grid">
+                <!-- セッション -->
+                <div class="cheatsheet-category" data-category="session">
+                    <h3 class="category-title">
+                        <span class="category-icon">🎯</span>
+                        セッション操作
+                    </h3>
+                    <div class="commands-list">
+                        <div class="command-item" data-clipboard="tmux new -s mysession">
+                            <div class="command-keys">
+                                <code>tmux new -s &lt;name&gt;</code>
+                            </div>
+                            <div class="command-desc">新しいセッションを作成して接続</div>
+                            <button class="copy-btn" aria-label="コピー">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="command-item" data-clipboard="tmux ls">
+                            <div class="command-keys">
+                                <code>tmux ls</code>
+                            </div>
+                            <div class="command-desc">セッション一覧を表示</div>
+                            <button class="copy-btn" aria-label="コピー">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="command-item" data-clipboard="tmux attach -t mysession">
+                            <div class="command-keys">
+                                <code>tmux attach -t &lt;name&gt;</code>
+                            </div>
+                            <div class="command-desc">既存セッションに接続</div>
+                            <button class="copy-btn" aria-label="コピー">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="command-item" data-keys="prefix d">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>d</kbd>
+                            </div>
+                            <div class="command-desc">セッションから一時離脱（detach）</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix $">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>$</kbd>
+                            </div>
+                            <div class="command-desc">セッション名を変更</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix s">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>s</kbd>
+                            </div>
+                            <div class="command-desc">セッション一覧を表示して選択</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ウィンドウ -->
+                <div class="cheatsheet-category" data-category="window">
+                    <h3 class="category-title">
+                        <span class="category-icon">🗔</span>
+                        ウィンドウ操作
+                    </h3>
+                    <div class="commands-list">
+                        <div class="command-item" data-keys="prefix c">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>c</kbd>
+                            </div>
+                            <div class="command-desc">新しいウィンドウを作成</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix n">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>n</kbd>
+                            </div>
+                            <div class="command-desc">次のウィンドウへ移動</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix p">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>p</kbd>
+                            </div>
+                            <div class="command-desc">前のウィンドウへ移動</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix number">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>0-9</kbd>
+                            </div>
+                            <div class="command-desc">番号でウィンドウへ移動</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix w">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>w</kbd>
+                            </div>
+                            <div class="command-desc">ウィンドウ一覧を表示</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix comma">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>,</kbd>
+                            </div>
+                            <div class="command-desc">ウィンドウ名を変更</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix ampersand">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>&</kbd>
+                            </div>
+                            <div class="command-desc">現在のウィンドウを閉じる</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix l">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>l</kbd>
+                            </div>
+                            <div class="command-desc">直前のウィンドウへ移動</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ペイン -->
+                <div class="cheatsheet-category" data-category="pane">
+                    <h3 class="category-title">
+                        <span class="category-icon">⊞</span>
+                        ペイン操作
+                    </h3>
+                    <div class="commands-list">
+                        <div class="command-item highlight" data-keys="prefix percent">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>%</kbd>
+                            </div>
+                            <div class="command-desc">縦分割（左右に分割）</div>
+                        </div>
+                        <div class="command-item highlight" data-keys="prefix quote">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>"</kbd>
+                            </div>
+                            <div class="command-desc">横分割（上下に分割）</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix arrows">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>←→↑↓</kbd>
+                            </div>
+                            <div class="command-desc">ペイン間を移動</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix o">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>o</kbd>
+                            </div>
+                            <div class="command-desc">次のペインへ移動</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix semicolon">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>;</kbd>
+                            </div>
+                            <div class="command-desc">直前のペインへ移動</div>
+                        </div>
+                        <div class="command-item highlight" data-keys="prefix z">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>z</kbd>
+                            </div>
+                            <div class="command-desc">ペインを全画面表示/元に戻す（ズーム）</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix x">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>x</kbd>
+                            </div>
+                            <div class="command-desc">現在のペインを閉じる</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix space">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>Space</kbd>
+                            </div>
+                            <div class="command-desc">レイアウトを切り替え</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix braces">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>{</kbd> / <kbd>}</kbd>
+                            </div>
+                            <div class="command-desc">ペインを入れ替え</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix q">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>q</kbd>
+                            </div>
+                            <div class="command-desc">ペイン番号を表示（数字で移動）</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- コピー/スクロール -->
+                <div class="cheatsheet-category" data-category="copy">
+                    <h3 class="category-title">
+                        <span class="category-icon">📋</span>
+                        コピー・スクロール
+                    </h3>
+                    <div class="commands-list">
+                        <div class="command-item" data-keys="prefix bracket">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>[</kbd>
+                            </div>
+                            <div class="command-desc">コピーモードに入る（スクロール可能）</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix bracket-close">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>]</kbd>
+                            </div>
+                            <div class="command-desc">コピーしたテキストを貼り付け</div>
+                        </div>
+                        <div class="command-item sub-item">
+                            <div class="command-keys">
+                                <kbd>Space</kbd>
+                            </div>
+                            <div class="command-desc">コピー開始位置を選択</div>
+                        </div>
+                        <div class="command-item sub-item">
+                            <div class="command-keys">
+                                <kbd>Enter</kbd>
+                            </div>
+                            <div class="command-desc">コピー終了位置を確定</div>
+                        </div>
+                        <div class="command-item sub-item">
+                            <div class="command-keys">
+                                <kbd>q</kbd>
+                            </div>
+                            <div class="command-desc">コピーモードを終了</div>
+                        </div>
+                        <div class="command-item sub-item">
+                            <div class="command-keys">
+                                <kbd>↑</kbd> <kbd>↓</kbd> / <kbd>PgUp</kbd> <kbd>PgDn</kbd>
+                            </div>
+                            <div class="command-desc">スクロール</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- その他 -->
+                <div class="cheatsheet-category" data-category="other">
+                    <h3 class="category-title">
+                        <span class="category-icon">⚙️</span>
+                        その他よく使う操作
+                    </h3>
+                    <div class="commands-list">
+                        <div class="command-item" data-keys="prefix question">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>?</kbd>
+                            </div>
+                            <div class="command-desc">キーバインド一覧を表示</div>
+                        </div>
+                        <div class="command-item" data-keys="prefix colon">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>:</kbd>
+                            </div>
+                            <div class="command-desc">コマンドプロンプトを開く</div>
+                        </div>
+                        <div class="command-item" data-clipboard=":source-file ~/.tmux.conf">
+                            <div class="command-keys">
+                                <code>:source-file ~/.tmux.conf</code>
+                            </div>
+                            <div class="command-desc">設定ファイルを再読み込み</div>
+                            <button class="copy-btn" aria-label="コピー">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="command-item" data-keys="prefix t">
+                            <div class="command-keys">
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>t</kbd>
+                            </div>
+                            <div class="command-desc">現在時刻を表示</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 実践的な使い方 -->
+    <section id="practice" class="practice-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">Practice</span>
+                <h2>実践的な使い方</h2>
+                <p>よくある作業シナリオとtmuxでの実現方法</p>
+            </div>
+
+            <div class="scenarios">
+                <div class="scenario-card">
+                    <div class="scenario-header">
+                        <span class="scenario-number">01</span>
+                        <h3>Web開発ワークフロー</h3>
+                    </div>
+                    <div class="scenario-visual">
+                        <div class="mini-terminal">
+                            <div class="mini-pane" style="grid-column: 1; grid-row: 1;">
+                                <span class="mini-label">vim</span>
+                            </div>
+                            <div class="mini-pane" style="grid-column: 2; grid-row: 1;">
+                                <span class="mini-label">npm</span>
+                            </div>
+                            <div class="mini-pane" style="grid-column: 1 / 3; grid-row: 2;">
+                                <span class="mini-label">git</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scenario-steps">
+                        <div class="step">
+                            <code>tmux new -s webapp</code>
+                            <span>セッション作成</span>
+                        </div>
+                        <div class="step">
+                            <kbd>Ctrl+b</kbd> <kbd>%</kbd>
+                            <span>左右に分割</span>
+                        </div>
+                        <div class="step">
+                            <kbd>Ctrl+b</kbd> <kbd>↓</kbd> → <kbd>"</kbd>
+                            <span>下をさらに分割</span>
+                        </div>
+                        <div class="step">
+                            各ペインで編集・ビルド・git操作
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-header">
+                        <span class="scenario-number">02</span>
+                        <h3>リモートサーバー監視</h3>
+                    </div>
+                    <div class="scenario-visual">
+                        <div class="mini-terminal">
+                            <div class="mini-pane" style="grid-column: 1; grid-row: 1;">
+                                <span class="mini-label">top</span>
+                            </div>
+                            <div class="mini-pane" style="grid-column: 2; grid-row: 1;">
+                                <span class="mini-label">logs</span>
+                            </div>
+                            <div class="mini-pane" style="grid-column: 1; grid-row: 2;">
+                                <span class="mini-label">df</span>
+                            </div>
+                            <div class="mini-pane" style="grid-column: 2; grid-row: 2;">
+                                <span class="mini-label">network</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scenario-steps">
+                        <div class="step">
+                            SSHでサーバーに接続
+                        </div>
+                            <div class="step">
+                            <code>tmux new -s monitor</code>
+                            <span>監視セッション作成</span>
+                        </div>
+                        <div class="step">
+                            <kbd>Ctrl+b</kbd> <kbd>%</kbd> → <kbd>"</kbd>
+                            <span>4分割レイアウト</span>
+                        </div>
+                        <div class="step">
+                            <kbd>Ctrl+b</kbd> <kbd>d</kbd>
+                            <span>切断しても監視継続</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-header">
+                        <span class="scenario-number">03</span>
+                        <h3>ペアプログラミング</h3>
+                    </div>
+                    <div class="scenario-visual">
+                        <div class="mini-terminal">
+                            <div class="mini-pane" style="grid-column: 1; grid-row: 1;">
+                                <span class="mini-label">User A</span>
+                            </div>
+                            <div class="mini-pane" style="grid-column: 2; grid-row: 1;">
+                                <span class="mini-label">User B</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scenario-steps">
+                        <div class="step">
+                            <code>tmux -S /tmp/pair new -s pair</code>
+                            <span>共有セッション作成</span>
+                        </div>
+                        <div class="step">
+                            <code>chmod 777 /tmp/pair</code>
+                            <span>ソケットの権限変更</span>
+                        </div>
+                        <div class="step">
+                            他のユーザーが同じセッションにattach
+                        </div>
+                        <div class="step">
+                            同じ画面をリアルタイムで共有
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 設定 -->
+    <section id="config" class="config-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">Configuration</span>
+                <h2>おすすめ設定 (.tmux.conf)</h2>
+                <p>コピーしてすぐ使える設定例</p>
+            </div>
+
+            <div class="config-tabs">
+                <button class="tab-btn active" data-tab="basic">基本設定</button>
+                <button class="tab-btn" data-tab="mouse">マウス操作</button>
+                <button class="tab-btn" data-tab="vi">Vim風</button>
+                <button class="tab-btn" data-tab="design">見た目</button>
+            </div>
+
+            <div class="config-content">
+                <div class="tab-panel active" data-panel="basic">
+                    <div class="config-block">
+                        <h4>プレフィックスキーの変更（Ctrl+aに）</h4>
+                        <pre><code class="language-bash"># Ctrl+b のかわりに Ctrl+a を使う
+set -g prefix C-a
+unbind C-b
+bind C-a send-prefix</code></pre>
+                        <button class="copy-config-btn">コピー</button>
+                    </div>
+                    <div class="config-block">
+                        <h4>設定の再読み込みを簡単に</h4>
+                        <pre><code class="language-bash"># r で設定再読み込み
+bind r source-file ~/.tmux.conf \; display "Config reloaded!"</code></pre>
+                        <button class="copy-config-btn">コピー</button>
+                    </div>
+                    <div class="config-block">
+                        <h4>ペイン分割のキーを変更</h4>
+                        <pre><code class="language-bash"># | で縦分割、- で横分割
+bind | split-window -h
+bind - split-window -v
+unbind '"'
+unbind %</code></pre>
+                        <button class="copy-config-btn">コピー</button>
+                    </div>
+                </div>
+
+                <div class="tab-panel" data-panel="mouse">
+                    <div class="config-block">
+                        <h4>マウス操作を有効化</h4>
+                        <pre><code class="language-bash"># マウスでペイン選択・リサイズ・コピー可能に
+set -g mouse on
+
+# マウスドラッグでコピーモードを終了しない
+unbind -T copy-mode-vi MouseDragEnd1Pane</code></pre>
+                        <button class="copy-config-btn">コピー</button>
+                    </div>
+                </div>
+
+                <div class="tab-panel" data-panel="vi">
+                    <div class="config-block">
+                        <h4>Vim風のキーバインド</h4>
+                        <pre><code class="language-bash"># コピーモードをvim風に
+setw -g mode-keys vi
+
+# ペイン移動をvim風に
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+# コピーモードの選択をvim風に
+bind -T copy-mode-vi v send -X begin-selection
+bind -T copy-mode-vi y send -X copy-selection-and-cancel</code></pre>
+                        <button class="copy-config-btn">コピー</button>
+                    </div>
+                </div>
+
+                <div class="tab-panel" data-panel="design">
+                    <div class="config-block">
+                        <h4>ステータスバーのカスタマイズ</h4>
+                        <pre><code class="language-bash"># ステータスバーを上部に
+set -g status-position top
+
+# ステータスバーの更新間隔
+set -g status-interval 1
+
+# ステータスバーの色
+set -g status-style bg=black,fg=white
+
+# アクティブなウィンドウのスタイル
+setw -g window-status-current-style bg=blue,fg=white,bold
+
+# ペインボーダーの色
+set -g pane-border-style fg=colour240
+set -g pane-active-border-style fg=colour39</code></pre>
+                        <button class="copy-config-btn">コピー</button>
+                    </div>
+                    <div class="config-block">
+                        <h4>番号を1から始める</h4>
+                        <pre><code class="language-bash"># ウィンドウ番号を1から
+set -g base-index 1
+setw -g pane-base-index 1
+
+# ウィンドウを閉じた時に番号を詰める
+set -g renumber-windows on</code></pre>
+                        <button class="copy-config-btn">コピー</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-start">
+                <h3>クイックスタート</h3>
+                <div class="quick-steps">
+                    <div class="quick-step">
+                        <span class="step-num">1</span>
+                        <code>~/.tmux.conf</code> を作成
+                    </div>
+                    <div class="quick-step">
+                        <span class="step-num">2</span>
+                        上の設定をコピペ
+                    </div>
+                    <div class="quick-step">
+                        <span class="step-num">3</span>
+                        <kbd>Ctrl+b</kbd> <kbd>:</kbd> <code>source-file ~/.tmux.conf</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">tmux</span>
+                    <p>Terminal Multiplexer Guide</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#intro">はじめに</a>
+                    <a href="#concepts">基本概念</a>
+                    <a href="#cheatsheet">チートシート</a>
+                    <a href="#practice">実践</a>
+                    <a href="#config">設定</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Made for tmux learners</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- コピー成功トースト -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">✓</span>
+        <span class="toast-message">コピーしました！</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
