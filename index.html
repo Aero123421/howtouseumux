@@ -334,7 +334,7 @@
                     </div>
                 </div>
 
-            <!-- まとめ -->
+                <!-- まとめ -->
                 <div class="hierarchy-summary">
                     <div class="summary-box">
                         <h4>💡 まとめ</h4>
@@ -344,146 +344,66 @@
             </div>
 
             <!-- プレフィックスキーの説明 -->
-                <div class="prefix-key-section"
-                >
-                    <h3 class="prefix-title"
-                    >⌨️ プレフィックスキーとは？
-                    </h3>
+            <div class="prefix-key-section">
+                <h3 class="prefix-title">⌨️ プレフィックスキーとは？</h3>
+                
+                <div class="prefix-explanation">
+                    <p>tmuxの操作は<strong>「プレフィックスキー（デフォルトは Ctrl+b）を押してから、次のキーを押す」</strong>という2段階操作です。</p>
                     
-                    <div class="prefix-explanation"
-                    >
-                        <p
-                        >tmuxの操作は<strong
-                            >「プレフィックスキー（デフォルトは Ctrl+b）を押してから、次のキーを押す」</strong
-                            >という2段階操作です。
-                        </p>
-                        
-                        <div class="prefix-demo"
-                        >
-                            <div class="demo-step"
-                            >
-                                <span class="step-num"
-                                >1
-                                </span>
-                                <span class="step-action"
-                                >
-                                    <kbd
-                                    >Ctrl+b
-                                    </kbd
-                                    > を押す（指を離す）
-                                </span>
-                            </div>
-                            <div class="demo-step"
-                            >
-                                <span class="step-num"
-                                >2
-                                </span>
-                                <span class="step-action"
-                                >
-                                    <kbd
-                                    >d
-                                    </kbd
-                                    > を押す（セッションから離脱）
-                                </span>
-                            </div>
+                    <div class="prefix-demo">
+                        <div class="demo-step">
+                            <span class="step-num">1</span>
+                            <span class="step-action">
+                                <kbd>Ctrl+b</kbd> を押す（指を離す）
+                            </span>
+                        </div>                        
+                        <div class="demo-step">
+                            <span class="step-num">2</span>
+                            <span class="step-action">
+                                <kbd>d</kbd> を押す（セッションから離脱）
+                            </span>
                         </div>
-                        
-                        <div class="prefix-note"
-                        >
-                            <strong
-                            >💡 重要:
-                            </strong
-                            >
-                            <kbd
-                            >Ctrl+b
-                            </kbd
-                            > は押して<strong
-                            >離してから</strong
-                            >、次のキーを押します。同時押しではありません！
-                        </div
-                        >
+                    </div>
+                    
+                    <div class="prefix-note">
+                        <strong>💡 重要:</strong>
+                        <kbd>Ctrl+b</kbd> は押して<strong>離してから</strong>、次のキーを押します。同時押しではありません！
                     </div>
                 </div>
+            </div>
 
             <!-- 各概念の詳細 -->
-            <div class="concepts-detail"
-            >
-                <div class="concept-card" data-concept="session"
-                >
-                    <div class="concept-icon"
-                    >1
-                    </div>
-                    <div class="concept-content"
-                    >
-                        <h3
-                        >セッション Session
-                        </h3>
-                        <p class="concept-desc"
-                        >tmuxの最上位の作業単位。1つのセッションに複数のウィンドウを持てます。
-                        </p>
-                        <div class="concept-detail"
-                        >
-                            <h4
-                            >🔄 セッションの永続化（最大の特徴）
-                            </h4>
-                            <p
-                            >セッションを離脱（detach）しても、サーバー上でプロセスは動き続けます。SSH切断後も作業状態が完全に保存され、後から再接続できます。
-                            </p>
+            <div class="concepts-detail">
+                <div class="concept-card" data-concept="session">
+                    <div class="concept-icon">1</div>
+                    <div class="concept-content">
+                        <h3>セッション Session</h3>
+                        <p class="concept-desc">tmuxの最上位の作業単位。1つのセッションに複数のウィンドウを持てます。</p>
+                        <div class="concept-detail">
+                            <h4>🔄 セッションの永続化（最大の特徴）</h4>
+                            <p>セッションを離脱（detach）しても、サーバー上でプロセスは動き続けます。SSH切断後も作業状態が完全に保存され、後から再接続できます。</p>
                             
-                            <div class="session-flow"
-                            >
-                                <div class="flow-item"
-                                >
-                                    <code
-                                    >tmux new -s work
-                                    </code
-                                    >
-                                    <span
-                                    >セッション作成（-s はセッション名指定）
-                                    </span>
+                            <div class="session-flow">
+                                <div class="flow-item">
+                                    <code>tmux new -s work</code>
+                                    <span>セッション作成（-s はセッション名指定）</span>
                                 </div>
-                                <div class="flow-arrow"
-                                >↓
+                                <div class="flow-arrow">↓</div>
+                                <div class="flow-item">
+                                    <kbd>Ctrl+b</kbd> <kbd>d</kbd>
+                                    <span>離脱（detach）</span>
                                 </div>
-                                <div class="flow-item"
-                                >
-                                    <kbd
-                                    >Ctrl+b
-                                    </kbd
-                                    >
-                                    <kbd
-                                    >d
-                                    </kbd
-                                    >
-                                    <span
-                                    >離脱（detach）
-                                    </span>
-                                </div>
-                                <div class="flow-arrow"
-                                >↓
-                                </div>
-                                <div class="flow-item"
-                                >
+                                <div class="flow-arrow">↓</div>
+                                <div class="flow-item">
                                     SSH切断しても...
                                 </div>
-                                <div class="flow-arrow"
-                                >↓
+                                <div class="flow-arrow">↓</div>
+                                <div class="flow-item">
+                                    <code>tmux attach -t work</code>
+                                    <span>再接続（-t はターゲット指定）</span>
                                 </div>
-                                <div class="flow-item"
-                                >
-                                    <code
-                                    >tmux attach -t work
-                                    </code
-                                    >
-                                    <span
-                                    >再接続（-t はターゲット指定）
-                                    </span>
-                                </div>
-                                <div class="flow-arrow"
-                                >↓
-                                </div>
-                                <div class="flow-item highlight"
-                                >
+                                <div class="flow-arrow">↓</div>
+                                <div class="flow-item highlight">
                                     作業状態が完全に復元！
                                 </div>
                             </div>
@@ -682,7 +602,7 @@
                             <div class="command-keys">
                                 <code>tmux new -s &lt;name&gt;</code>
                             </div>
-                            <div class="command-desc">新しいセッションを作成して接続</div>
+                            <div class="command-desc">新しいセッションを作成して接続（-s は名前指定）</div>
                             <button class="copy-btn" aria-label="コピー">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
@@ -706,7 +626,7 @@
                             <div class="command-keys">
                                 <code>tmux attach -t &lt;name&gt;</code>
                             </div>
-                            <div class="command-desc">既存セッションに接続</div>
+                            <div class="command-desc">既存セッションに接続（-t はターゲット指定）</div>
                             <button class="copy-btn" aria-label="コピー">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
@@ -731,6 +651,18 @@
                                 <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>s</kbd>
                             </div>
                             <div class="command-desc">セッション一覧を表示して選択</div>
+                        </div>
+                        <div class="command-item" data-clipboard="tmux kill-session -t mysession">
+                            <div class="command-keys">
+                                <code>tmux kill-session -t &lt;name&gt;</code>
+                            </div>
+                            <div class="command-desc">セッションを終了</div>
+                            <button class="copy-btn" aria-label="コピー">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -886,13 +818,13 @@
                             <div class="command-keys">
                                 <kbd>Space</kbd>
                             </div>
-                            <div class="command-desc">コピー開始位置を選択</div>
+                            <div class="command-desc">コピー開始位置を選択（emacsモード）</div>
                         </div>
                         <div class="command-item sub-item">
                             <div class="command-keys">
                                 <kbd>Enter</kbd>
                             </div>
-                            <div class="command-desc">コピー終了位置を確定</div>
+                            <div class="command-desc">コピー終了位置を確定（emacsモード）</div>
                         </div>
                         <div class="command-item sub-item">
                             <div class="command-keys">
@@ -940,12 +872,6 @@
                                 </svg>
                             </button>
                         </div>
-                        <div class="command-item" data-keys="prefix t">
-                            <div class="command-keys">
-                                <kbd>Ctrl</kbd> + <kbd>b</kbd> → <kbd>t</kbd>
-                            </div>
-                            <div class="command-desc">現在時刻を表示</div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -985,13 +911,13 @@
                             <code>tmux new -s webapp</code>
                             <span>セッション作成</span>
                         </div>
-                            <div class="step">
-                                <kbd>Ctrl+b</kbd> <kbd>%</kbd>
-                                <span>ペインを左右に分割</span>
-                            </div>
                         <div class="step">
-                            <kbd>Ctrl+b</kbd> <kbd>↓</kbd> → <kbd>"</kbd>
-                            <span>下をさらに分割</span>
+                            <kbd>Ctrl+b</kbd> <kbd>%</kbd>
+                            <span>ペインを左右に分割</span>
+                        </div>
+                        <div class="step">
+                            <kbd>Ctrl+b</kbd> <kbd>↓</kbd> → <kbd>Ctrl+b</kbd> <kbd>"</kbd>
+                            <span>下にペインを分割</span>
                         </div>
                         <div class="step">
                             各ペインで編集・ビルド・git操作
@@ -1029,7 +955,7 @@
                             <span>監視セッション作成</span>
                         </div>
                         <div class="step">
-                            <kbd>Ctrl+b</kbd> <kbd>%</kbd> → <kbd>"</kbd>
+                            <kbd>Ctrl+b</kbd> <kbd>%</kbd> → <kbd>Ctrl+b</kbd> <kbd>"</kbd>
                             <span>4分割レイアウト</span>
                         </div>
                         <div class="step">
@@ -1205,7 +1131,7 @@ set -g renumber-windows on</code></pre>
             </div>
 
             <div class="quick-start">
-                <h3>クイックスタート</h3>
+                <h3>🚀 クイックスタート</h3>
                 <div class="quick-steps">
                     <div class="quick-step">
                         <span class="step-num">1</span>
@@ -1230,7 +1156,7 @@ set -g renumber-windows on</code></pre>
             <div class="footer-content">
                 <div class="footer-brand">
                     <span class="logo-icon">tmux</span>
-                    <p>Terminal Multiplexer Guide</p>
+                    <p>tmux Introduction Guide</p>
                 </div>
                 <div class="footer-links">
                     <a href="#intro">はじめに</a>
@@ -1241,7 +1167,7 @@ set -g renumber-windows on</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>tmux Introduction Guide</p>
+                <p>Made for tmux beginners</p>
             </div>
         </div>
     </footer>
